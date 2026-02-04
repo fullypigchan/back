@@ -69,14 +69,7 @@ body:
     validations:
       required: true
 
-  - type: input
-    id: api-endpoint
-    attributes:
-      label: 🔗 연관 API Endpoint
-      description: 이 Service와 연결되는 Controller 엔드포인트가 있다면 입력해주세요.
-      placeholder: "POST /api/v1/members/join"
-    validations:
-      required: false
+ 
 
   - type: textarea
     id: request-dto
