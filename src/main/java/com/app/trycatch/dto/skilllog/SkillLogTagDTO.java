@@ -1,16 +1,17 @@
-package com.app.trycatch.domain;
+package com.app.trycatch.dto.skilllog;
 
-import com.app.trycatch.audit.Period;
 import com.app.trycatch.common.enumeration.SkillLogStatus;
 import lombok.*;
-import lombok.experimental.SuperBuilder;
 
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Getter @ToString
+@Getter
+@Setter
+@ToString
+@NoArgsConstructor
 @EqualsAndHashCode(of = "id")
-@SuperBuilder
-public class SkillLogVO extends Period {
+public class SkillLogTagDTO {
     private Long id;
+
+    private Long skillLogId;
     private Long memberId;
     private Long experienceProgramId;
     private String skillLogTitle;
@@ -18,4 +19,7 @@ public class SkillLogVO extends Period {
     private String skillLogCategory;
     private int skillLogViewCount;
     private SkillLogStatus skillLogStatus;
+
+    private Long tagId;
+    private String tagName;
 }
