@@ -1,6 +1,7 @@
 package com.app.trycatch.domain;
 
 import com.app.trycatch.audit.Period;
+import com.app.trycatch.common.enumeration.SkillLogStatus;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
@@ -14,5 +15,7 @@ public class SkillLogVO extends Period {
     private Long experienceProgramId;
     private String skillLogTitle;
     private String skillLogContent;
-
+    private String skillLogCategory;
+    private int skillLogViewCount;
+    private SkillLogStatus skillLogStatus;
 }

@@ -13,4 +13,3 @@ create table tbl_member
     constraint fk_member_address foreign key (address_id) references tbl_address (id)
 ) comment '회원 슈퍼타입';
 
-
