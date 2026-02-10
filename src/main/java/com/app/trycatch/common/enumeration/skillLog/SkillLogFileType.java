@@ -19,4 +19,7 @@ public enum SkillLogFileType {
     public String getValue() {
         return value;
     }
+    public static SkillLogFileType getSkillLogFileType(String value) {
+        return SKILL_LOG_FILE_TYPE_MAP.get(value);
+    }
 }

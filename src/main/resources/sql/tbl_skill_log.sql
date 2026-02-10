@@ -6,7 +6,6 @@ create table tbl_skill_log
     experience_program_id         bigint unsigned comment '체험 프로그램 ID',
     skill_log_title               varchar(255)    not null comment '제목',
     skill_log_content             text            not null comment '내용',
-    skill_log_category            varchar(255) comment '카테고리',
     skill_log_view_count          int                           default 0 comment '조회수',
     skill_log_status              enum ('published', 'deleted') default 'published' comment '상태',
     created_datetime              datetime                      default current_timestamp,
@@ -15,4 +14,6 @@ create table tbl_skill_log
     constraint fk_skill_log_program foreign key (experience_program_id) references tbl_experience_program (id)
 );
 
-
+select * from tbl_skill_log;
+set foreign_key_checks = 1;
+drop table tbl_skill_log;

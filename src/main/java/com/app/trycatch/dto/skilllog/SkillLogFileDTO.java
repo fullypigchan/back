@@ -11,6 +11,7 @@ import lombok.*;
 @NoArgsConstructor
 @EqualsAndHashCode(of = "id")
 public class SkillLogFileDTO {
+//    File
     private Long id;
     private String fileTargetType;
     private Long fileTargetId;
@@ -20,8 +21,12 @@ public class SkillLogFileDTO {
     private String createdDatetime;
     private String updatedDatetime;
 
-    private Long skillLogId;
+//    SkillLogFile
     private SkillLogFileType skillLogFileType;
+
+//    SkillLog
+    private Long skillLogId;
+
 
     public FileVO toFileVO() {
         return FileVO.builder()
