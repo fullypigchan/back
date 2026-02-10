@@ -19,4 +19,7 @@ public enum SkillLogStatus {
     public String getValue() {
         return value;
     }
+    public static SkillLogStatus getSkillLogStatus(String value) {
+        return SKILL_LOG_STATUS_MAP.get(value);
+    }
 }
