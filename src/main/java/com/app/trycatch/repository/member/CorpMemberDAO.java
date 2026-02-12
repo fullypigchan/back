@@ -22,4 +22,9 @@ public class CorpMemberDAO {
         return corpMemberMapper.selectByCorpCompanyName(corpCompanyName);
     }
 
+    //    사업자등록번호 검사
+    public Optional<CorpVO> findByCorpBusinessNumber(String corpBusinessNumber) {
+        return corpMemberMapper.selectByCorpBusinessNumber(corpBusinessNumber);
+    }
+
 }

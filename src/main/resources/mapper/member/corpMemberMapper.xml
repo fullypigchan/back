@@ -10,4 +10,9 @@
         from tbl_corp
         where corp_company_name = #{corpCompanyName}
     </select>
+    <select id="selectByCorpBusinessNumber" resultType="CorpVO">
+        select  id, corp_company_name, corp_business_number, corp_ceo_name, corp_kind_id, corp_kind_small_id, corp_company_type, corp_company_size, corp_establishment_date, corp_website_url, corp_fax, corp_capital, corp_total_sales, corp_performance, corp_vision
+        from tbl_corp
+        where corp_business_number = #{corpBusinessNumber}
+    </select>
 </mapper>

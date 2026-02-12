@@ -14,4 +14,7 @@ public interface CorpMemberMapper {
 
     //    회사명 검사
     Optional<CorpVO> selectByCorpCompanyName(String corpCompanyName);
+
+    //    사업자등록번호 검사
+    Optional<CorpVO> selectByCorpBusinessNumber(String corpBusinessNumber);
 }

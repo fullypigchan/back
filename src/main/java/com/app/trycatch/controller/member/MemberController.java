@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
@@ -81,6 +82,27 @@ public class MemberController {
         return "main/log-in";
     }
 
+    @GetMapping("/check-email")
+    @ResponseBody
+    public boolean checkEmail(String memberEmail) {
+        return individualMemberService.checkEmail(memberEmail);
+    }
 
+    @GetMapping("/check-id")
+    @ResponseBody
+    public boolean checkId(String memberId) {
+        return individualMemberService.checkMemberId(memberId);
+    }
 
+    @GetMapping("/check-company-name")
+    @ResponseBody
+    public boolean checkCompanyName(String corpCompanyName) {
+        return corpService.checkCompanyName(corpCompanyName);
+    }
+
+    @GetMapping("/check-business-number")
+    @ResponseBody
+    public boolean checkBusinessNumber(String corpBusinessNumber) {
+        return corpService.checkBusinessNumber(corpBusinessNumber);
+    }
 }
