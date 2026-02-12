@@ -1,3 +1,47 @@
+// 아이디, 이메일 중복검사 상태
+let idDuplicateCheck = false;
+let emailDuplicateCheck = false;
+
+// 아이디 중복검사 (blur 시)
+const idCheckInput = document.getElementById("idcheck");
+const idCheckNotice = document.getElementById("notice_msg_id");
+
+idCheckInput.addEventListener("blur", () => {
+    const value = idCheckInput.value;
+    if (!value || !/^[a-z0-9]{4,16}$/.test(value)) {
+        idDuplicateCheck = false;
+        return;
+    }
+    memberService.checkId(value, (isAvailable) => {
+        idDuplicateCheck = isAvailable;
+        if (!isAvailable) {
+            idCheckNotice.innerHTML = "이미 사용 중인 아이디입니다.";
+            idCheckNotice.classList.add("failure");
+            idCheckNotice.style.display = "block";
+        }
+    });
+});
+
+// 이메일 중복검사 (blur 시)
+const emailCheckInput = document.getElementById("M_Email");
+const emailCheckNotice = document.getElementById("notice_msg_mail");
+
+emailCheckInput.addEventListener("blur", () => {
+    const value = emailCheckInput.value;
+    if (!value || !/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(value)) {
+        emailDuplicateCheck = false;
+        return;
+    }
+    memberService.checkEmail(value, (isAvailable) => {
+        emailDuplicateCheck = isAvailable;
+        if (!isAvailable) {
+            emailCheckNotice.innerHTML = "이미 사용 중인 이메일입니다.";
+            emailCheckNotice.classList.add("failure");
+            emailCheckNotice.style.display = "block";
+        }
+    });
+});
+
 // 비밀번호 도움말 버튼
 const btnHelp = document.querySelector(".btnHelp");
 const passwordHelp = document.querySelector(".row.mbr_passwd");
@@ -176,9 +220,39 @@ mbrBtnRegist.addEventListener("click", (e) => {
         isValid = false;
     }
 
+    // 아이디/이메일 중복검사 확인 (정규식 통과한 경우에만 중복 메시지 표시)
+    const idInputEl = document.getElementById("idcheck");
+    const idNoticeEl = document.getElementById("notice_msg_id");
+    if (idInputEl.value && /^[a-z0-9]{4,16}$/.test(idInputEl.value) && !idDuplicateCheck) {
+        idNoticeEl.innerHTML = "이미 사용 중인 아이디입니다.";
+        idNoticeEl.classList.add("failure");
+        idNoticeEl.style.display = "block";
+        isValid = false;
+    }
+
+    const emailInputEl = document.getElementById("M_Email");
+    const emailNoticeEl = document.getElementById("notice_msg_mail");
+    if (emailInputEl.value && /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(emailInputEl.value) && !emailDuplicateCheck) {
+        emailNoticeEl.innerHTML = "이미 사용 중인 이메일입니다.";
+        emailNoticeEl.classList.add("failure");
+        emailNoticeEl.style.display = "block";
+        isValid = false;
+    }
+
     // 검증 결과
     if (!isValid) {
-        alert("필수 항목을 확인해주세요.");
+        const idIsDuplicate = !idDuplicateCheck && idInputEl.value && /^[a-z0-9]{4,16}$/.test(idInputEl.value);
+        const emailIsDuplicate = !emailDuplicateCheck && emailInputEl.value && /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(emailInputEl.value);
+
+        if (idIsDuplicate && emailIsDuplicate) {
+            alert("이미 사용 중인 아이디와 이메일입니다.");
+        } else if (idIsDuplicate) {
+            alert("이미 사용 중인 아이디입니다.");
+        } else if (emailIsDuplicate) {
+            alert("이미 사용 중인 이메일입니다.");
+        } else {
+            alert("필수 항목을 확인해주세요.");
+        }
     } else {
         alert("환영합니다!");
         document.getElementById("frm").submit();

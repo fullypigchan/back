@@ -1,4 +1,100 @@
 // ==========================================
+//  아이디, 이메일, 기업명, 사업자등록번호 중복검사 상태
+// ==========================================
+let idDuplicateCheck = false;
+let emailDuplicateCheck = false;
+let companyNameDuplicateCheck = false;
+let businessNumberDuplicateCheck = false;
+
+// 아이디 중복검사 (blur 시)
+const idCheckInput = document.getElementById("U_ID");
+const idCheckNotice = document.getElementById("notice_msg_id");
+
+if (idCheckInput) {
+    idCheckInput.addEventListener("blur", () => {
+        const value = idCheckInput.value;
+        if (!value || !/^[a-z0-9]{4,16}$/.test(value)) {
+            idDuplicateCheck = false;
+            return;
+        }
+        memberService.checkId(value, (isAvailable) => {
+            idDuplicateCheck = isAvailable;
+            if (!isAvailable && idCheckNotice) {
+                idCheckNotice.innerHTML = "이미 사용 중인 아이디입니다.";
+                idCheckNotice.classList.add("failure");
+                idCheckNotice.style.display = "block";
+            }
+        });
+    });
+}
+
+// 이메일 중복검사 (blur 시)
+const emailCheckInput = document.getElementById("email");
+const emailCheckNotice = document.getElementById("notice_msg_mail");
+
+if (emailCheckInput) {
+    emailCheckInput.addEventListener("blur", () => {
+        const value = emailCheckInput.value;
+        if (!value || !/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(value)) {
+            emailDuplicateCheck = false;
+            return;
+        }
+        memberService.checkEmail(value, (isAvailable) => {
+            emailDuplicateCheck = isAvailable;
+            if (!isAvailable && emailCheckNotice) {
+                emailCheckNotice.innerHTML = "이미 사용 중인 이메일입니다.";
+                emailCheckNotice.classList.add("failure");
+                emailCheckNotice.style.display = "block";
+            }
+        });
+    });
+}
+
+// 기업명 중복검사 (blur 시)
+const companyNameCheckInput = document.getElementById("Corp_Name");
+const companyNameCheckNotice = document.getElementById("notice_msg_corp_name");
+
+if (companyNameCheckInput) {
+    companyNameCheckInput.addEventListener("blur", () => {
+        const value = companyNameCheckInput.value;
+        if (!value || !/^.{1,50}$/.test(value)) {
+            companyNameDuplicateCheck = false;
+            return;
+        }
+        memberService.checkCompanyName(value, (isAvailable) => {
+            companyNameDuplicateCheck = isAvailable;
+            if (!isAvailable && companyNameCheckNotice) {
+                companyNameCheckNotice.innerHTML = "이미 등록된 기업명입니다.";
+                companyNameCheckNotice.classList.add("failure");
+                companyNameCheckNotice.style.display = "block";
+            }
+        });
+    });
+}
+
+// 사업자등록번호 중복검사 (blur 시)
+const bizNumCheckInput = document.getElementById("Corp_RegNum");
+const bizNumCheckNotice = document.getElementById("notice_msg_regnum");
+
+if (bizNumCheckInput) {
+    bizNumCheckInput.addEventListener("blur", () => {
+        const value = bizNumCheckInput.value;
+        if (!value || !/^\d{3}-?\d{2}-?\d{5}$/.test(value)) {
+            businessNumberDuplicateCheck = false;
+            return;
+        }
+        memberService.checkBusinessNumber(value, (isAvailable) => {
+            businessNumberDuplicateCheck = isAvailable;
+            if (!isAvailable && bizNumCheckNotice) {
+                bizNumCheckNotice.innerHTML = "이미 등록된 사업자등록번호입니다.";
+                bizNumCheckNotice.classList.add("failure");
+                bizNumCheckNotice.style.display = "block";
+            }
+        });
+    });
+}
+
+// ==========================================
 //  비밀번호 표시/숨김 토글
 // ==========================================
 const passwordInput = document.getElementById("U_PWD");
@@ -428,9 +524,69 @@ if (submitBtn) {
             }
         }
 
+        // 아이디/이메일/기업명 중복검사 확인 (정규식 통과한 경우에만 중복 메시지 표시)
+        const idInputEl = document.getElementById("U_ID");
+        const idNoticeEl = document.getElementById("notice_msg_id");
+        if (idInputEl && idInputEl.value && /^[a-z0-9]{4,16}$/.test(idInputEl.value) && !idDuplicateCheck) {
+            if (idNoticeEl) {
+                idNoticeEl.innerHTML = "이미 사용 중인 아이디입니다.";
+                idNoticeEl.classList.add("failure");
+                idNoticeEl.style.display = "block";
+            }
+            isValid = false;
+        }
+
+        const emailInputEl = document.getElementById("email");
+        const emailNoticeEl = document.getElementById("notice_msg_mail");
+        if (emailInputEl && emailInputEl.value && /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(emailInputEl.value) && !emailDuplicateCheck) {
+            if (emailNoticeEl) {
+                emailNoticeEl.innerHTML = "이미 사용 중인 이메일입니다.";
+                emailNoticeEl.classList.add("failure");
+                emailNoticeEl.style.display = "block";
+            }
+            isValid = false;
+        }
+
+        const corpNameInputEl = document.getElementById("Corp_Name");
+        const corpNameNoticeEl = document.getElementById("notice_msg_corp_name");
+        if (corpNameInputEl && corpNameInputEl.value && /^.{1,50}$/.test(corpNameInputEl.value) && !companyNameDuplicateCheck) {
+            if (corpNameNoticeEl) {
+                corpNameNoticeEl.innerHTML = "이미 등록된 기업명입니다.";
+                corpNameNoticeEl.classList.add("failure");
+                corpNameNoticeEl.style.display = "block";
+            }
+            isValid = false;
+        }
+
+        const bizNumInputEl = document.getElementById("Corp_RegNum");
+        const bizNumNoticeEl = document.getElementById("notice_msg_regnum");
+        if (bizNumInputEl && bizNumInputEl.value && /^\d{3}-?\d{2}-?\d{5}$/.test(bizNumInputEl.value) && !businessNumberDuplicateCheck) {
+            if (bizNumNoticeEl) {
+                bizNumNoticeEl.innerHTML = "이미 등록된 사업자등록번호입니다.";
+                bizNumNoticeEl.classList.add("failure");
+                bizNumNoticeEl.style.display = "block";
+            }
+            isValid = false;
+        }
+
         // 검증 결과
         if (!isValid) {
-            alert("필수 항목을 확인해주세요.");
+            const idIsDup = idInputEl && idInputEl.value && /^[a-z0-9]{4,16}$/.test(idInputEl.value) && !idDuplicateCheck;
+            const emailIsDup = emailInputEl && emailInputEl.value && /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(emailInputEl.value) && !emailDuplicateCheck;
+            const corpNameIsDup = corpNameInputEl && corpNameInputEl.value && /^.{1,50}$/.test(corpNameInputEl.value) && !companyNameDuplicateCheck;
+            const bizNumIsDup = bizNumInputEl && bizNumInputEl.value && /^\d{3}-?\d{2}-?\d{5}$/.test(bizNumInputEl.value) && !businessNumberDuplicateCheck;
+
+            const dupMessages = [];
+            if (idIsDup) dupMessages.push("아이디");
+            if (emailIsDup) dupMessages.push("이메일");
+            if (corpNameIsDup) dupMessages.push("기업명");
+            if (bizNumIsDup) dupMessages.push("사업자등록번호");
+
+            if (dupMessages.length > 0) {
+                alert("이미 사용 중인 " + dupMessages.join(", ") + "입니다.");
+            } else {
+                alert("필수 항목을 확인해주세요.");
+            }
         } else {
             document.getElementById("form").submit();
         }

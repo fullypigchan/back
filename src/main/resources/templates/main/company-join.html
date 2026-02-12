@@ -477,6 +477,7 @@
 </div>
 </body>
 
+<script src="/js/member/join/corporate-service.js"></script>
 <script src="/js/main/join/company-join-event.js"></script>
 
 <!-- 다음 우편번호 API -->
@@ -502,10 +503,10 @@
                 document.getElementById('addressDisplay').textContent =
                     '[' + data.zonecode + '] ' + addr;
 
-                // ★ "회사주소 *" 라벨 숨김 (겹침 방지)
-                var labelEl = document.getElementById('addressLabel');
-                if (labelEl) {
-                    labelEl.style.display = 'none';
+                // ★ is-value 클래스 추가 → 라벨 축소 + value 영역 세로 정렬
+                var addrLink = document.querySelector('.input-profile-addr');
+                if (addrLink) {
+                    addrLink.classList.add('is-value');
                 }
 
                 // ★ 주소 에러 메시지 제거

@@ -225,6 +225,26 @@ gender.forEach((gender) => {
 });
 
 // ==========================================
+// 전화번호 하이픈 자동 포맷팅 (01012345678 → 010-1234-5678)
+// ==========================================
+const phoneInput = document.getElementById("M_Phone");
+
+if (phoneInput) {
+    phoneInput.addEventListener("input", () => {
+        let value = phoneInput.value.replace(/[^0-9]/g, "");
+        if (value.length > 11) value = value.slice(0, 11);
+
+        if (value.length <= 3) {
+            phoneInput.value = value;
+        } else if (value.length <= 7) {
+            phoneInput.value = value.slice(0, 3) + "-" + value.slice(3);
+        } else {
+            phoneInput.value = value.slice(0, 3) + "-" + value.slice(3, 7) + "-" + value.slice(7);
+        }
+    });
+}
+
+// ==========================================
 // 카카오에서 pre-fill된 필드에 focus 스타일 적용
 // ==========================================
 document.addEventListener("DOMContentLoaded", () => {

@@ -29,9 +29,14 @@ public class CorpService {
     }
 
     // 회사명 중복 검사 (true: 사용 가능)
-//    public boolean checkCompanyAddress(String corpCompanyName){
-//        return
-//    }
+    public boolean checkCompanyName(String corpCompanyName) {
+        return corpMemberDAO.findByCorpCompanyName(corpCompanyName).isEmpty();
+    }
+
+    // 사업자등록번호 중복 검사 (true: 사용 가능)
+    public boolean checkBusinessNumber(String corpBusinessNumber) {
+        return corpMemberDAO.findByCorpBusinessNumber(corpBusinessNumber).isEmpty();
+    }
 
 
     //  기업 회원가입
